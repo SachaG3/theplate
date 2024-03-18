@@ -1,0 +1,8 @@
+PATCH {{host}}/users/f810ba31-0875-478e-a73a-c9fc0afdcf97
+Content-Type: application/json
+
+{
+  "login": "John Goe",
+  "password": "123456"
+}
+
