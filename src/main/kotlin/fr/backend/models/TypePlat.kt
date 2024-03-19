@@ -6,15 +6,6 @@ import java.util.*
 
 @Entity
 class TypePlat {
-    /**
-     *
-     * CREATE TABLE TypePlat(
-     *    id INT AUTO_INCREMENT,
-     *    libelle VARCHAR(60),
-     *    PRIMARY KEY(id)
-     * );
-     *
-     */
     @Id
     open var id: UUID = UUID.randomUUID()
     open var libelle: String? = null

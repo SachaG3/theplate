@@ -7,17 +7,6 @@ import java.util.*
 
 @Entity
 class Ticket {
-    /**
-     *CREATE TABLE Ticket(
-     *    id INT AUTO_INCREMENT,
-     *    titre VARCHAR(100),
-     *    statut TINYINT,
-     *    description TEXT,
-     *    idUtilisateur INT NOT NULL,
-     *    PRIMARY KEY(id),
-     *    FOREIGN KEY(idUtilisateur) REFERENCES Utilisateur(id)
-     * );
-     */
     @Id
     open var id: UUID = UUID.randomUUID()
     open var title: String? = null

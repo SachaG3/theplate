@@ -7,23 +7,6 @@ import java.util.*
 
 @Entity
 open class Plat {
-    /**
-     *CREATE TABLE Plat(
-     *    id INT AUTO_INCREMENT,
-     *    nom VARCHAR(50),
-     *    image VARCHAR(50),
-     *    description TEXT,
-     *    prix DECIMAL(19,4),
-     *    actif BOOLEAN,
-     *    duJour BOOLEAN,
-     *    idTypePlat INT NOT NULL,
-     *    idrestaurant INT NOT NULL,
-     *    PRIMARY KEY(id),
-     *    FOREIGN KEY(idTypePlat) REFERENCES TypePlat(id),
-     *    FOREIGN KEY(idrestaurant) REFERENCES restaurant(id)
-     * );
-     *
-     */
     @Id
     open var id: UUID = UUID.randomUUID()
     open var name: String? = null

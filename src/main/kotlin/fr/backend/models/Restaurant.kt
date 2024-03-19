@@ -7,22 +7,6 @@ import java.util.*
 
 @Entity
 open class Restaurant {
-    /**
-     *CREATE TABLE restaurant(
-     *    id INT AUTO_INCREMENT,
-     *    nom VARCHAR(100),
-     *    description TEXT,
-     *    adresse1 TEXT,
-     *    adresse2 VARCHAR(50),
-     *    cp VARCHAR(5),
-     *    ville VARCHAR(100),
-     *    coordGPS VARCHAR(10),
-     *    approuve BOOLEAN,
-     *    idTheme INT NOT NULL,
-     *    PRIMARY KEY(id),
-     *    FOREIGN KEY(idTheme) REFERENCES Theme(id)
-     * );
-     */
     @Id
     open var id: UUID = UUID.randomUUID()
     open var name: String? = null

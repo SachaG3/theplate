@@ -7,17 +7,6 @@ import java.util.*
 
 @Entity
 class Message {
-    /**
-     * CREATE TABLE Message(
-     *    id INT AUTO_INCREMENT,
-     *    contenu TEXT,
-     *    idUtilisateur INT NOT NULL,
-     *    idTicket INT NOT NULL,
-     *    PRIMARY KEY(id),
-     *    FOREIGN KEY(idUtilisateur) REFERENCES Utilisateur(id),
-     *    FOREIGN KEY(idTicket) REFERENCES Ticket(id)
-     * );
-     */
     @Id
     open var id: UUID = UUID.randomUUID()
     open var content: String? = null
