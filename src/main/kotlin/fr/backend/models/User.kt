@@ -15,4 +15,10 @@ open class User {
     @Column(nullable = false)
     open var password: String? = null
 
+    open var coordGPS: String? = null
+
+    @ManyToOne
+    open var role: Role? = null
+
+
 }

@@ -1,0 +1,50 @@
+###
+
+POST {{host}}/api/roles
+Content-Type: application/json
+
+{
+  "name": "admin"
+}
+
+###
+GET {{host}}/api/roles/search/byName?name=admin
+
+> {%
+    client.global.set("uuidRole", response.body.id);
+%}
+
+###
+POST {{host}}/api/users
+Content-Type: application/json
+
+{
+  "login": "j.smith",
+  "password": "password",
+  "role": "/api/roles/{{uuidRole}}"
+}
+
+
+
+###
+POST {{host}}/users
+Content-Type: application/json
+
+{
+  "login": "j.mustang",
+  "password": "123456"
+}
+
+
+###
+POST {{host}}/api/users
+Content-Type: application/json
+
+{
+  "login": "j.smoth",
+  "password": "password100"
+}
+
+###
+GET {{host}}/actuator/mappings
+
