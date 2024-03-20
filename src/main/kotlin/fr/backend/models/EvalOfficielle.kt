@@ -1,8 +1,10 @@
 package fr.backend.models
 
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
+import java.util.*
 
 @Entity
 class EvalOfficielle {
@@ -13,8 +15,10 @@ class EvalOfficielle {
     @ManyToOne
     @Id
     open var Restaurant: Restaurant? = null
-    open var note: String? = null
+    @Column(columnDefinition = "TINYINT(4)")
+    open var note: Int? = null
+    @Column(columnDefinition = "TEXT")
     open var comment: String? = null
-    open var dateC: String? = null
+    open var dateC: Date? = null
 
 }

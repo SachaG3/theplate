@@ -8,7 +8,8 @@ import jakarta.persistence.ManyToOne
 @Entity
 open class OffreResto {
 
-    @Column(nullable = false)
+    @Column(nullable = false,columnDefinition = "TINYINT(43)")
+
     open var nbPlaces: Int? = null
 
     @ManyToOne
