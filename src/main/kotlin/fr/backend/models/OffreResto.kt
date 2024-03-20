@@ -1,24 +1,27 @@
 package fr.backend.models
 
-import jakarta.persistence.*
-import java.util.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.ManyToOne
+import jakarta.validation.constraints.PositiveOrZero
 
 @Entity
-@Table(indexes = [Index(unique = true, columnList = "datej_datej,service_id,restaurant_id")])
 open class OffreResto {
-    @Id
-    open var id: UUID = UUID.randomUUID()
 
-    @Column(nullable = false, columnDefinition = "TINYINT(43)")
-
+    @Column(nullable = false,columnDefinition = "TINYINT(43)")
+    @PositiveOrZero
     open var nbPlaces: Int? = null
 
     @ManyToOne
+    @Id
     open var dateJ: DateJ? = null
 
     @ManyToOne
+    @Id
     open var service: Service? = null
 
     @ManyToOne
+    @Id
     open var restaurant: Restaurant? = null
 }

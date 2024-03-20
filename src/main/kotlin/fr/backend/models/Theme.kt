@@ -2,6 +2,7 @@ package fr.backend.models
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
+import jakarta.validation.constraints.NotBlank
 import java.util.*
 
 @Entity
@@ -9,5 +10,6 @@ import java.util.*
 open class Theme {
     @Id
     open var id: UUID = UUID.randomUUID()
+    @NotBlank
     open var libelle: String? = null
 }

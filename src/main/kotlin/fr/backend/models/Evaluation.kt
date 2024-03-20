@@ -1,6 +1,8 @@
 package fr.backend.models
 
 import jakarta.persistence.*
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.PastOrPresent
 import java.util.*
 
 @Entity
@@ -13,11 +15,15 @@ open class Evaluation {
     open var note: Int? = null
 
     @Column(columnDefinition = "TEXT")
+    @NotBlank
     open var commentclient: String? = null
+    @NotBlank
     open var commentadmin: String? = null
+    @PastOrPresent
     open var date: Date? = null
 
     @Column(columnDefinition = "TEXT")
+    @NotBlank
     open var commentReponse: String? = null
 
     @ManyToOne
