@@ -12,7 +12,7 @@ open class User {
     @Column(nullable = false)
     open var login: String? = null
 
-    @Column(nullable = false)
+    
     open var email: String? = null
 
     @Column(nullable = false)
