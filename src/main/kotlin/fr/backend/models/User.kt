@@ -13,6 +13,9 @@ open class User {
     open var login: String? = null
 
     @Column(nullable = false)
+    open var email: String? = null
+
+    @Column(nullable = false)
     open var password: String? = null
 
     open var coordGPS: String? = null
