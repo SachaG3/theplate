@@ -1,5 +1,6 @@
 package fr.backend.models
 
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
@@ -10,7 +11,9 @@ class Ticket {
     @Id
     open var id: UUID = UUID.randomUUID()
     open var title: String? = null
-    open var status: Int? = null
+    @Column(columnDefinition = "TINYINT(2)")
+    open var statut: Int? = null
+    @Column(columnDefinition = "TEXT")
     open var description: String? = null
 
     @ManyToOne

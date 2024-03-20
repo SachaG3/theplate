@@ -12,8 +12,10 @@ open class Reservation {
     @Temporal(TemporalType.TIMESTAMP)
     open var dateR: Date? = null
 
+    @Column(columnDefinition = "TINYINT(2)")
     open var statut: Int? = null
 
+    @Column(columnDefinition = "TINYINT(2)")
     open var nbPlaces: Int? = null
 
     @Column(columnDefinition = "TEXT")
