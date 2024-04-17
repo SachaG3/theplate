@@ -30,9 +30,9 @@ class DataFaker {
         val faker = Faker()
         for (i in 1..count) {
             val user = User().apply {
-                login = faker.name().username()
+                login = "SachaG3"
                 email = faker.internet().emailAddress()
-                password = passwordEncoder.encode(faker.internet().password())
+                password = passwordEncoder.encode("aze")
                 latitude = faker.address().latitude()
                 longitude = faker.address().longitude()
             }
@@ -165,6 +165,73 @@ class DataFaker {
         }
 
         return evalOfficielles
+    }
+
+    fun generateOffreRestos(
+        count: Int,
+        dateJs: List<DateJ>,
+        services: List<Service>,
+        restaurants: List<Restaurant>
+    ): List<OffreResto> {
+        val offreRestos = mutableListOf<OffreResto>()
+        val faker = Faker()
+
+        repeat(count) {
+            val offreResto = OffreResto().apply {
+                nbPlaces = faker.number().numberBetween(1, 20)
+                dateJ = dateJs.random()
+                service = services.random()
+                restaurant = restaurants.random()
+            }
+            offreRestos.add(offreResto)
+        }
+
+        return offreRestos
+    }
+
+    fun generatePreferences(count: Int, themes: List<Theme>, users: List<User>): List<Preferences> {
+        val preferences = mutableListOf<Preferences>()
+
+        repeat(count) {
+            val preference = Preferences().apply {
+                Theme = themes.random()
+                User = users.random()
+            }
+            preferences.add(preference)
+        }
+
+        return preferences
+    }
+
+    fun generateTickets(count: Int, users: List<User>): List<Ticket> {
+        val tickets = mutableListOf<Ticket>()
+        val faker = Faker()
+
+        repeat(count) {
+            val ticket = Ticket().apply {
+                title = faker.lorem().sentence()
+                statut = faker.number().numberBetween(0, 2) // 0: ouvert, 1: en cours, 2: fermé
+                description = faker.lorem().paragraph()
+                user = users.random()
+            }
+            tickets.add(ticket)
+        }
+
+        return tickets
+    }
+
+    fun generateFavoris(count: Int, restaurants: List<Restaurant>, users: List<User>): List<Favoris> {
+        val favoris = mutableListOf<Favoris>()
+
+        repeat(count) {
+            val favori = Favoris().apply {
+                Restaurant = restaurants.random()
+                User = users.random()
+            }
+            favoris.add(favori)
+        }
+
+        return favoris
     }
 
 
