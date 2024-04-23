@@ -30,6 +30,9 @@ import org.springframework.security.oauth2.jwt.JwtEncoder
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector
 
 
@@ -65,7 +68,11 @@ class SecurityConfig {
             .authorizeHttpRequests { auth ->
                 auth.requestMatchers("/error/**").permitAll()
                 auth.requestMatchers("/api/auth/**").permitAll()
+                auth.requestMatchers("/**").permitAll()
+                auth.requestMatchers("/h2-console/**").permitAll()
                 auth.anyRequest().authenticated()
+            }.headers { headers ->
+                headers.frameOptions { it.sameOrigin() }
             }
             .sessionManagement { s: SessionManagementConfigurer<HttpSecurity?> ->
                 s.sessionCreationPolicy(
@@ -105,5 +112,15 @@ class SecurityConfig {
 
     companion object {
         private val log: Logger = LoggerFactory.getLogger(SecurityConfig::class.java)
+    }
+
+    @Bean
+    fun corsConfigurationSource(): CorsConfigurationSource {
+        val configuration = CorsConfiguration()
+        configuration.allowedOrigins = listOf("localhost:3000")
+        configuration.allowedMethods = listOf("GET", "FETCH", "POST", "PUT", "DELETE")
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", configuration)
+        return source
     }
 }

@@ -1,10 +1,13 @@
 package fr.backend.security
 
+
 import fr.backend.models.User
 import fr.backend.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.jwt.JwtClaimsSet
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.jwt.JwtEncoder
@@ -25,9 +28,12 @@ class AuthService {
     @Autowired
     lateinit var JwtDecoder: JwtDecoder
 
+    @Autowired
+    lateinit var passwordEncoder: PasswordEncoder
+
 
     @Autowired
-    private val userRepository: UserRepository? = null
+    lateinit var userRepository: UserRepository
 
     fun generateToken(authentication: Authentication): String {
         val now = Instant.now()
@@ -44,6 +50,7 @@ class AuthService {
             .subject(authentication.name)
             .claim("scope", scope)
             .claim("user_id", (authentication.principal as AuthUser).user.id)
+            .claim("login", (authentication.principal as AuthUser).user.login)
             .claim("role", (authentication.principal as AuthUser).user.role.name)
             .build()
 
@@ -54,6 +61,17 @@ class AuthService {
     fun getActiveUser(token: String): User {
         val claims = JwtDecoder.decode(token).claims
         val userId = claims["user_id"] as UUID
-        return userRepository!!.findById(userId).orElseThrow { RuntimeException("User not found") }
+        return userRepository.findById(userId).orElseThrow { RuntimeException("User not found") }
+    }
+
+    fun passwordUsersToBCrypt() {
+        val users = userRepository.findAll()
+        users.forEach { it.password = passwordEncoder.encode(it.password) }
+        userRepository.saveAll(users)
+    }
+
+    @Bean
+    fun parseUsersForPasswordEncoding() {
+        //this.passwordUsersToBCrypt()
     }
 }

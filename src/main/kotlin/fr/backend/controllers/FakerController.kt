@@ -53,7 +53,7 @@ class FakerController {
     fun generate(@PathVariable count: Int) {
         val users = userFaker.generateUser(count)
         users.forEach {
-            it.role = RoleRepository.findByName("USER")!!
+            it.role = RoleRepository.findByName("ROLE_USER")!!
         }
         UserRepository.saveAll(users)
     }

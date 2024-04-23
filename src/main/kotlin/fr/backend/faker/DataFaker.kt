@@ -30,7 +30,7 @@ class DataFaker {
         val faker = Faker()
         for (i in 1..count) {
             val user = User().apply {
-                login = "SachaG3"
+                login = faker.name().username()
                 email = faker.internet().emailAddress()
                 password = passwordEncoder.encode("aze")
                 latitude = faker.address().latitude()

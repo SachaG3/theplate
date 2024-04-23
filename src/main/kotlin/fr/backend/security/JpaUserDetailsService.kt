@@ -16,11 +16,10 @@ class JpaUserDetailsService : UserDetailsService {
 
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(usernameOrEmail: String): UserDetails {
-        val user: AuthUser = userRepository
+
+        return userRepository
             .findByUsernameOrEmail(usernameOrEmail)
             .map { AuthUser(it) }
             .orElseThrow { UsernameNotFoundException("User name or email not found: $usernameOrEmail") }
-
-        return user
     }
 }
