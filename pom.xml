@@ -12,7 +12,7 @@
     <artifactId>backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>backend</name>
+    <name>${build.finalName}</name>
     <description>backend</description>
     <properties>
         <java.version>17</java.version>
@@ -107,6 +107,7 @@
     </dependencies>
 
     <build>
+        <finalName>theplate</finalName>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
         <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <plugins>
