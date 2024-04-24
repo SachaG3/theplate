@@ -8,14 +8,14 @@ maven-build:
   script: "mvn clean package -P prod -DskipTests=true"
   artifacts:
     paths:
-      - target/the-plate.war
+      - target/theplate.war
 
 deploy-master:
   variables:
     HOST: "149.202.94.223"
     PORT: "7809"
     USER: "gitlab-ci"
-    WAR: "the-plate.war"
+    WAR: "theplate.war"
   rules:
     - if: '$CI_COMMIT_BRANCH =~ /^main$/'
   before_script:
