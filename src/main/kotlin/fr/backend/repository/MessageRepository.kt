@@ -6,7 +6,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource
 import org.springframework.web.bind.annotation.CrossOrigin
 import java.util.*
 
-@CrossOrigin(origins = ["*"])
+@CrossOrigin
 @RepositoryRestResource(collectionResourceRel = "Message", path = "Message")
 interface MessageRepository : JpaRepository<Message, UUID> {
     @CrossOrigin(origins = ["*"])

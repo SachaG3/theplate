@@ -6,6 +6,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource
 import org.springframework.web.bind.annotation.CrossOrigin
 import java.util.*
 
-@CrossOrigin(origins = ["*"])
+@CrossOrigin
 @RepositoryRestResource(collectionResourceRel = "restaurant", path = "restaurant")
 interface RestaurantRepository : JpaRepository<Restaurant, UUID>
