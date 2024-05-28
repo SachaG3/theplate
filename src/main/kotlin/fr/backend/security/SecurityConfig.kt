@@ -6,7 +6,6 @@ import com.nimbusds.jose.jwk.RSAKey
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet
 import com.nimbusds.jose.jwk.source.JWKSource
 import com.nimbusds.jose.proc.SecurityContext
-import org.apache.catalina.webresources.TomcatURLStreamHandlerFactory.disable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -61,7 +60,7 @@ class SecurityConfig {
             .csrf { csrf: CsrfConfigurer<HttpSecurity> ->
                 csrf.disable()
             }
-            .cors { disable() }
+            .cors(Customizer.withDefaults())
 
             .authorizeHttpRequests { auth ->
                 auth.requestMatchers("/error/**").permitAll()
