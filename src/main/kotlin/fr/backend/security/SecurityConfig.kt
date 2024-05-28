@@ -63,7 +63,6 @@ class SecurityConfig {
             .csrf { csrf: CsrfConfigurer<HttpSecurity> ->
                 csrf.disable()
             }
-            .cors(Customizer.withDefaults())
 
 
             .authorizeHttpRequests { auth ->
@@ -113,13 +112,11 @@ class SecurityConfig {
 
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
+        val configuration = CorsConfiguration()
+        configuration.allowedOrigins = listOf("http://the-plate-front.sts-sio-caen.info")
+        configuration.allowedMethods = listOf("GET", "POST")
         val source = UrlBasedCorsConfigurationSource()
-        val config = CorsConfiguration()
-        config.allowedOrigins = listOf("http://srv2-vm-2121.sts-sio-caen.info")
-        config.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
-        config.allowedHeaders = listOf("*")
-        config.allowCredentials = true
-        source.registerCorsConfiguration("/**", config)
+        source.registerCorsConfiguration("/**", configuration)
         return source
     }
 
