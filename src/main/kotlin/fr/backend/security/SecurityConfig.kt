@@ -6,7 +6,6 @@ import com.nimbusds.jose.jwk.RSAKey
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet
 import com.nimbusds.jose.jwk.source.JWKSource
 import com.nimbusds.jose.proc.SecurityContext
-import org.apache.catalina.webresources.TomcatURLStreamHandlerFactory.disable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -30,6 +29,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoder
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector
 
 
@@ -61,7 +61,17 @@ class SecurityConfig {
             .csrf { csrf: CsrfConfigurer<HttpSecurity> ->
                 csrf.disable()
             }
-            .cors { disable() }
+            .cors { cors ->
+                cors.configurationSource { request ->
+                    CorsConfiguration().applyPermitDefaultValues()
+                        .also { config ->
+                            config.allowedOrigins = listOf("http://srv2-vm-2121.sts-sio-caen.info")
+                            config.allowedMethods = listOf("*")
+                            config.allowedHeaders = listOf("*")
+                            config.allowCredentials = true
+                        }
+                }
+            }
 
             .authorizeHttpRequests { auth ->
                 auth.requestMatchers("/error/**").permitAll()
