@@ -33,5 +33,6 @@ open class User {
     @Nonnull
     open lateinit var role: Role
 
-
+    @OneToMany(mappedBy = "user")
+    open var Ticket: List<Ticket> = mutableListOf()
 }

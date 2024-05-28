@@ -46,6 +46,7 @@ class AuthController {
         val userDetails = authentication.principal as AuthUser
         log.info("Token requested for user :{}", authentication.authorities)
         val token = authService.generateToken(authentication)
+        
         val response: AuthDTO.Response = AuthDTO.Response("User logged in successfully", token)
         return ResponseEntity.ok<Any>(response)
     }

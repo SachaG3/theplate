@@ -16,5 +16,10 @@ interface UserRepository : JpaRepository<User, UUID> {
     fun findByEmail(email: String): User?
 
     @Query("SELECT u FROM User u WHERE u.login = :loginOrEmail OR u.email = :loginOrEmail")
-    fun findByUsernameOrEmail(loginOrEmail: String): Optional<User>
+    fun findByLoginOrEmail(loginOrEmail: String): Optional<User>
+
+    @RestResource(path = "byid")
+    override fun findById(id: UUID): Optional<User>
+
+
 }

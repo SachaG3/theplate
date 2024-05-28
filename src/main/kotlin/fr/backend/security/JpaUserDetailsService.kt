@@ -18,7 +18,7 @@ class JpaUserDetailsService : UserDetailsService {
     override fun loadUserByUsername(usernameOrEmail: String): UserDetails {
 
         return userRepository
-            .findByUsernameOrEmail(usernameOrEmail)
+            .findByLoginOrEmail(usernameOrEmail)
             .map { AuthUser(it) }
             .orElseThrow { UsernameNotFoundException("User name or email not found: $usernameOrEmail") }
     }

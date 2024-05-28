@@ -37,7 +37,7 @@ Content-Type: application/json
 
 
 ###
-POST {{host}}/api/users
+POST {{host}}/api/user
 Content-Type: application/json
 
 {

@@ -6,6 +6,7 @@ import com.nimbusds.jose.jwk.RSAKey
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet
 import com.nimbusds.jose.jwk.source.JWKSource
 import com.nimbusds.jose.proc.SecurityContext
+import org.apache.catalina.webresources.TomcatURLStreamHandlerFactory.disable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,7 +19,6 @@ import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.annotation.web.configurers.CorsConfigurer
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer
 import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer
@@ -30,9 +30,6 @@ import org.springframework.security.oauth2.jwt.JwtEncoder
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.web.cors.CorsConfiguration
-import org.springframework.web.cors.CorsConfigurationSource
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector
 
 
@@ -64,7 +61,8 @@ class SecurityConfig {
             .csrf { csrf: CsrfConfigurer<HttpSecurity> ->
                 csrf.disable()
             }
-            .cors { cors: CorsConfigurer<HttpSecurity> -> cors.disable() }
+            .cors { disable() }
+
             .authorizeHttpRequests { auth ->
                 auth.requestMatchers("/error/**").permitAll()
                 auth.requestMatchers("/api/auth/**").permitAll()
@@ -114,13 +112,4 @@ class SecurityConfig {
         private val log: Logger = LoggerFactory.getLogger(SecurityConfig::class.java)
     }
 
-    @Bean
-    fun corsConfigurationSource(): CorsConfigurationSource {
-        val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf("localhost:3000")
-        configuration.allowedMethods = listOf("GET", "FETCH", "POST", "PUT", "DELETE")
-        val source = UrlBasedCorsConfigurationSource()
-        source.registerCorsConfiguration("/**", configuration)
-        return source
-    }
 }
