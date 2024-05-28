@@ -63,7 +63,8 @@ class SecurityConfig {
             .csrf { csrf: CsrfConfigurer<HttpSecurity> ->
                 csrf.disable()
             }
-            .cors().and()
+            .cors(Customizer.withDefaults())
+
 
             .authorizeHttpRequests { auth ->
                 auth.requestMatchers("/error/**").permitAll()
