@@ -8,8 +8,9 @@ import org.springframework.data.rest.core.annotation.RestResource
 import org.springframework.web.bind.annotation.CrossOrigin
 import java.util.*
 
-@CrossOrigin(origins = ["*"])
+
 @RepositoryRestResource(collectionResourceRel = "users", path = "users")
+@CrossOrigin(origins = ["*"])
 interface UserRepository : JpaRepository<User, UUID> {
     @RestResource(path = "bylogin")
     fun findByLogin(login: String): User?
