@@ -30,10 +30,9 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.web.cors.CorsConfiguration
-import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import org.springframework.web.filter.CorsFilter
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector
-
 
 @Configuration
 @EnableWebSecurity
@@ -46,7 +45,6 @@ class SecurityConfig {
     @Autowired
     lateinit var userDetailsService: JpaUserDetailsService
 
-
     @Bean
     fun authManager(): AuthenticationManager {
         val authProvider = DaoAuthenticationProvider()
@@ -55,23 +53,22 @@ class SecurityConfig {
         return ProviderManager(authProvider)
     }
 
-
     @Bean
     @Throws(Exception::class)
     fun filterChain(http: HttpSecurity, introspector: HandlerMappingIntrospector?): SecurityFilterChain {
         return http
+            .cors(Customizer.withDefaults()) // Activer le support CORS
             .csrf { csrf: CsrfConfigurer<HttpSecurity> ->
                 csrf.disable()
             }
-
-
             .authorizeHttpRequests { auth ->
                 auth.requestMatchers("/error/**").permitAll()
                 auth.requestMatchers("/api/auth/**").permitAll()
                 auth.requestMatchers("/**").permitAll()
                 auth.requestMatchers("/h2-console/**").permitAll()
                 auth.anyRequest().authenticated()
-            }.headers { headers ->
+            }
+            .headers { headers ->
                 headers.frameOptions { it.sameOrigin() }
             }
             .sessionManagement { s: SessionManagementConfigurer<HttpSecurity?> ->
@@ -110,18 +107,19 @@ class SecurityConfig {
         return BCryptPasswordEncoder()
     }
 
-    @Bean
-    fun corsConfigurationSource(): CorsConfigurationSource {
-        val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf("http://the-plate-front.sts-sio-caen.info")
-        configuration.allowedMethods = listOf("GET", "POST")
-        val source = UrlBasedCorsConfigurationSource()
-        source.registerCorsConfiguration("/**", configuration)
-        return source
-    }
-
     companion object {
         private val log: Logger = LoggerFactory.getLogger(SecurityConfig::class.java)
     }
 
+    @Bean
+    fun corsFilter(): CorsFilter {
+        val source = UrlBasedCorsConfigurationSource()
+        val config = CorsConfiguration()
+        config.allowCredentials = true
+        config.allowedOrigins = listOf("*")
+        config.allowedHeaders = listOf("*")
+        config.allowedMethods = listOf("*")
+        source.registerCorsConfiguration("/**", config)
+        return CorsFilter(source)
+    }
 }
