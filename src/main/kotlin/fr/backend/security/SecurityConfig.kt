@@ -56,8 +56,8 @@ class SecurityConfig {
     @Bean
     @Throws(Exception::class)
     fun filterChain(http: HttpSecurity, introspector: HandlerMappingIntrospector?): SecurityFilterChain {
-        return http
-            .cors(Customizer.withDefaults()) // Activer le support CORS
+        http
+            .cors(Customizer.withDefaults()) // Utilise le bean corsFilter
             .csrf { csrf: CsrfConfigurer<HttpSecurity> ->
                 csrf.disable()
             }
@@ -72,20 +72,16 @@ class SecurityConfig {
                 headers.frameOptions { it.sameOrigin() }
             }
             .sessionManagement { s: SessionManagementConfigurer<HttpSecurity?> ->
-                s.sessionCreationPolicy(
-                    SessionCreationPolicy.STATELESS
-                )
+                s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
             .oauth2ResourceServer { oauth2: OAuth2ResourceServerConfigurer<HttpSecurity?> ->
                 oauth2.jwt { jwt ->
-                    jwt.decoder(
-                        jwtDecoder()
-                    )
+                    jwt.decoder(jwtDecoder())
                 }
             }
             .userDetailsService(userDetailsService)
             .httpBasic(Customizer.withDefaults())
-            .build()
+        return http.build()
     }
 
     @Bean
@@ -95,9 +91,9 @@ class SecurityConfig {
 
     @Bean
     fun jwtEncoder(): JwtEncoder {
-        val jwk: JWK =
-            RSAKey.Builder(rsaKeyConfigProperties.publicKey).privateKey(rsaKeyConfigProperties.privateKey).build()
-
+        val jwk: JWK = RSAKey.Builder(rsaKeyConfigProperties.publicKey)
+            .privateKey(rsaKeyConfigProperties.privateKey)
+            .build()
         val jwks: JWKSource<SecurityContext> = ImmutableJWKSet(JWKSet(jwk))
         return NimbusJwtEncoder(jwks)
     }
@@ -107,19 +103,20 @@ class SecurityConfig {
         return BCryptPasswordEncoder()
     }
 
-    companion object {
-        private val log: Logger = LoggerFactory.getLogger(SecurityConfig::class.java)
-    }
-
     @Bean
     fun corsFilter(): CorsFilter {
         val source = UrlBasedCorsConfigurationSource()
         val config = CorsConfiguration()
         config.allowCredentials = true
-        config.allowedOrigins = listOf("*")
+        config.allowedOriginPatterns = listOf("*") // Utilisez allowedOriginPatterns pour permettre toutes les origines
         config.allowedHeaders = listOf("*")
         config.allowedMethods = listOf("*")
         source.registerCorsConfiguration("/**", config)
         return CorsFilter(source)
+    }
+
+
+    companion object {
+        private val log: Logger = LoggerFactory.getLogger(SecurityConfig::class.java)
     }
 }
