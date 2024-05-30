@@ -6,6 +6,9 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource
 import org.springframework.web.bind.annotation.CrossOrigin
 import java.util.*
 
+
 @RepositoryRestResource(collectionResourceRel = "ticket", path = "ticket")
 @CrossOrigin(origins = ["*"])
-interface TicketRepository : JpaRepository<Ticket, UUID>
+interface TicketRepository : JpaRepository<Ticket, UUID> {
+    fun findByUserId(userId: UUID): List<Ticket>
+}
