@@ -9,5 +9,6 @@ import java.util.*
 @RepositoryRestResource(collectionResourceRel = "plat", path = "plat")
 @CrossOrigin(origins = ["*"])
 interface PlatRepository : JpaRepository<Plat, UUID> {
+    @CrossOrigin(origins = ["*"])
     fun findByRestaurantId(restaurantId: UUID): List<Plat>
 }
